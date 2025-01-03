@@ -1,8 +1,8 @@
 package sk.lubosduraj.skillmea.ability;
 
 public enum Ability {
-    ATTACK("Attack is the ability to deal damage. Final damage is also affected by dexterity and skill."),
-    DEFENCE("Defence is the ability to reduce damage. Final damage is also affected by dexterity."),
+    ATTACK("Attack is the ability for raw damage. Final damage is also affected by dexterity, skill and used sword."),
+    PARRY("Parry is the ability to defend enemy's damage. Final damage is also affected by dexterity."),
     DEXTERITY("Dexterity is important for both attack and defence. It affects final damage and final damage reduction."),
     SKILL("Skill is important for attack and also for critical hit chance."),
     LUCK("Luck is important for critical hit chance."),

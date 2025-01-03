@@ -29,7 +29,7 @@ public class HeroAbilityManager {
                     return;
                 }
                 case 1 -> ability = Ability.ATTACK;
-                case 2 -> ability = Ability.DEFENCE;
+                case 2 -> ability = Ability.PARRY;
                 case 3 -> ability = Ability.DEXTERITY;
                 case 4 -> ability = Ability.SKILL;
                 case 5 -> ability = Ability.LUCK;
@@ -39,7 +39,7 @@ public class HeroAbilityManager {
                     continue;
                 }
             }
-            if (this.hero.getAbilities().get(ability) == 1) {
+            if (this.hero.getAbilities().get(ability) == 1 || this.hero.getAbilities().get(Ability.HEALTH) == 50) {
                 System.out.println("You cannot remove points from this ability!");
             } else {
                 this.hero.updateAbility(ability, -1);
@@ -63,7 +63,7 @@ public class HeroAbilityManager {
             System.out.println("You have " + availablePoints + " points to spend. Choose wisely.");
             System.out.println("0. Explain abilities");
             System.out.println("1. Attack");
-            System.out.println("2. Defence");
+            System.out.println("2. Parry");
             System.out.println("3. Dexterity");
             System.out.println("4. Skill");
             System.out.println("5. Luck");
@@ -83,7 +83,7 @@ public class HeroAbilityManager {
                     continue;
                 }
                 case 1 -> ability = Ability.ATTACK;
-                case 2 -> ability = Ability.DEFENCE;
+                case 2 -> ability = Ability.PARRY;
                 case 3 -> ability = Ability.DEXTERITY;
                 case 4 -> ability = Ability.SKILL;
                 case 5 -> ability = Ability.LUCK;

@@ -80,14 +80,11 @@ public class GameManager {
                             System.out.println("Bye!");
                             return;
                         }
-                        default -> {
-                            System.out.println("Wrong input!");
-                        }
+                        default -> System.out.println("Wrong input!");
+
                     }
                 }
-                default -> {
-                    System.out.println("Wrong input!");
-                }
+                default -> System.out.println("Wrong input!");
             }
         }
         System.out.println("You won the game!");
@@ -112,21 +109,39 @@ public class GameManager {
     }
 
     public void initGame(){
-        System.out.println("Welcome young Witcher");
-        System.out.println("0. Start new game");
-        System.out.println("1. Load game");
-        final int choice = InputUtils.readInt();
-        switch (choice){
-            case 0 -> System.out.println("Hunt begins!");
-            case 1 -> {
-                    final LoadedGame loadGame = fileService.loadGame();
-                    if (loadGame != null){
-                        this.hero = loadGame.getHero();
-                        this.currentLevel = loadGame.getLevel();
-                        return;
-                    }
+        System.out.println("\n" +
+                " ________ __ __         __                    __                        __               __                                 \n" +
+                "|  |  |  |__|  |_.----.|  |--.-----.----.    |  |_.-----.----.--------.|__|.-----.---.-.|  |    .-----.---.-.--------.-----.\n" +
+                "|  |  |  |  |   _|  __||     |  -__|   _|    |   _|  -__|   _|        ||  ||     |  _  ||  |    |  _  |  _  |        |  -__|\n" +
+                "|________|__|____|____||__|__|_____|__|      |____|_____|__| |__|__|__||__||__|__|___._||__|    |___  |___._|__|__|__|_____|\n" +
+                "                                                                                                |_____|                     \n");
+        System.out.println("Welcome young Witcher.");
+        boolean initialized = false;
+        while (!initialized){
+            System.out.println("0. Start new game");
+            System.out.println("1. Load game");
+            System.out.println("3. Exit game");
+            final int choice = InputUtils.readInt();
+            switch (choice){
+                case 0 -> {
+                    System.out.println("Hunt begins!");
+                    initialized = true;
+                }
+                case 1 -> {
+                        final LoadedGame loadGame = fileService.loadGame();
+                        if (loadGame != null){
+                            this.hero = loadGame.getHero();
+                            this.currentLevel = loadGame.getLevel();
+                            initialized = true;
+                            return;
+                        }
+                }
+                case 3 -> {
+                    System.out.println("Bye");
+                    this.exit(0);
+                }
+                default -> System.out.println("Invalid choice!");
             }
-            default -> System.out.println("Invalid choice!");
         }
 
 
@@ -138,6 +153,10 @@ public class GameManager {
         PrintUtils.printAbilities(hero);
         System.out.println();
         this.heroAbilityManager.spendAvailablePoints();
+    }
+
+    public void exit(int status){
+        System.exit(status);
     }
 
 }

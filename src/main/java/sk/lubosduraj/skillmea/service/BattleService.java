@@ -91,7 +91,7 @@ public class BattleService {
         final int attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack;
 
         // calculate defence power
-        final int minDefence = defenderAbilities.get(Ability.DEFENCE);
+        final int minDefence = defenderAbilities.get(Ability.PARRY);
         final int maxDefence = minDefence + defenderAbilities.get(Ability.DEXTERITY);
         final int defencePower = random.nextInt(maxDefence - minDefence + 1) + minDefence;
 

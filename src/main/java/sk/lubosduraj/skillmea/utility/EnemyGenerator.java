@@ -12,7 +12,7 @@ public class EnemyGenerator {
         enemies.put(
                 1, new Enemy("Goblin", new HashMap<>(Map.of(
                         Ability.ATTACK, 3,
-                        Ability.DEFENCE, 1,
+                        Ability.PARRY, 1,
                         Ability.DEXTERITY, 2,
                         Ability.SKILL, 2,
                         Ability.LUCK, 4,
@@ -22,7 +22,7 @@ public class EnemyGenerator {
         enemies.put(
                 2, new Enemy("Orc", new HashMap<>(Map.of(
                         Ability.ATTACK, 3,
-                        Ability.DEFENCE, 1,
+                        Ability.PARRY, 1,
                         Ability.DEXTERITY, 4,
                         Ability.SKILL, 3,
                         Ability.LUCK, 1,
@@ -32,7 +32,7 @@ public class EnemyGenerator {
         enemies.put(
                 3, new Enemy("Golem", new HashMap<>(Map.of(
                         Ability.ATTACK, 4,
-                        Ability.DEFENCE, 4,
+                        Ability.PARRY, 4,
                         Ability.DEXTERITY, 1,
                         Ability.SKILL, 2,
                         Ability.LUCK, 5,
@@ -42,7 +42,7 @@ public class EnemyGenerator {
         enemies.put(
                 4, new Enemy("Troll", new HashMap<>(Map.of(
                         Ability.ATTACK, 5,
-                        Ability.DEFENCE, 5,
+                        Ability.PARRY, 5,
                         Ability.DEXTERITY, 1,
                         Ability.SKILL, 1,
                         Ability.LUCK, 1,
@@ -52,7 +52,7 @@ public class EnemyGenerator {
         enemies.put(
                 5, new Enemy("Dragon", new HashMap<>(Map.of(
                         Ability.ATTACK, 5,
-                        Ability.DEFENCE, 5,
+                        Ability.PARRY, 5,
                         Ability.DEXTERITY, 5,
                         Ability.SKILL, 5,
                         Ability.LUCK, 5,

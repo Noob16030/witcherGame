@@ -49,7 +49,7 @@ public class Hero extends GameCharacter {
     private Map<Ability, Integer> getInitialAbilities(){
         return new HashMap<>(Map.of(
                 Ability.ATTACK, 1,
-                Ability.DEFENCE, 1,
+                Ability.PARRY, 1,
                 Ability.DEXTERITY, 1,
                 Ability.SKILL, 1,
                 Ability.LUCK, 1,

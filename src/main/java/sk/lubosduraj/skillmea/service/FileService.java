@@ -3,6 +3,7 @@ import sk.lubosduraj.skillmea.ability.Ability;
 import sk.lubosduraj.skillmea.domain.Hero;
 import sk.lubosduraj.skillmea.domain.LoadedGame;
 import sk.lubosduraj.skillmea.utility.InputUtils;
+import sk.lubosduraj.skillmea.utility.PrintUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,6 +78,7 @@ public class FileService {
     }
 
     public LoadedGame loadGame(){
+        int backNumber = 0;
         while (true){
             final File[] savedFiles = new File ("saved-games").listFiles();
             if (savedFiles == null || savedFiles.length == 0){
@@ -87,11 +89,21 @@ public class FileService {
             System.out.println("Enter name of save you want to load.");
             for (int i = 0; i < savedFiles.length; i++){
                 System.out.println(i + ". " + savedFiles[i].getName().replace(".txt", ""));
+                backNumber = i + 1;
             }
+            System.out.println(backNumber + ". Back");
 
             final int choice = InputUtils.readInt();
+
+            if (choice == backNumber){
+                System.out.println("Returning.");
+                PrintUtils.printDivider();
+                return null;
+            }
+
             if (choice < 0 || choice >= savedFiles.length){
                 System.out.println("Invalid choice.");
+                PrintUtils.printDivider();
                 continue;
             }
 
@@ -101,6 +113,7 @@ public class FileService {
             try{
                 final String heroData = Files.readString(Path.of(filepath));
                 System.out.println("Game loaded.");
+                PrintUtils.printDivider();
                 return this.stringToHeroData(heroData);
             } catch (IOException e) {
                 System.out.println("Error while loading game!");
