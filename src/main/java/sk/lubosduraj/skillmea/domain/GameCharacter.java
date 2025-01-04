@@ -1,6 +1,7 @@
 package sk.lubosduraj.skillmea.domain;
 
 import sk.lubosduraj.skillmea.ability.Ability;
+import sk.lubosduraj.skillmea.ability.Immunity;
 
 import java.util.Map;
 

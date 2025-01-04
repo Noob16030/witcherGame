@@ -1,11 +1,11 @@
 package sk.lubosduraj.skillmea.domain;
 
 public class LoadedGame {
-    private final Hero hero;
+    private final Witcher hero;
     private final int level;
 
 
-    public Hero getHero() {
+    public Witcher getHero() {
         return hero;
     }
 
@@ -13,7 +13,7 @@ public class LoadedGame {
         return level;
     }
 
-    public LoadedGame(Hero hero, int level) {
+    public LoadedGame(Witcher hero, int level) {
         this.hero = hero;
         this.level = level;
     }

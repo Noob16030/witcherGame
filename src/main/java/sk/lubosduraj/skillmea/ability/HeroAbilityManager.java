@@ -1,13 +1,13 @@
 package sk.lubosduraj.skillmea.ability;
 
-import sk.lubosduraj.skillmea.domain.Hero;
+import sk.lubosduraj.skillmea.domain.Witcher;
 import sk.lubosduraj.skillmea.utility.InputUtils;
 import sk.lubosduraj.skillmea.utility.PrintUtils;
 
 public class HeroAbilityManager {
-    private final Hero hero;
+    private final Witcher hero;
 
-    public HeroAbilityManager(Hero hero){
+    public HeroAbilityManager(Witcher hero){
         this.hero = hero;
     }
 
@@ -15,12 +15,7 @@ public class HeroAbilityManager {
         while (true) {
             System.out.println("Which ability do you want to remove?");
             System.out.println("0. I am done");
-            System.out.println("1. Attack");
-            System.out.println("2. Defence");
-            System.out.println("3. Dexterity");
-            System.out.println("4. Skill");
-            System.out.println("5. Luck");
-            System.out.println("6. Health");
+            PrintUtils.printAbilitiesNew(hero);
 
             final int abilityIndex = InputUtils.readInt();
             Ability ability;
@@ -39,13 +34,20 @@ public class HeroAbilityManager {
                     continue;
                 }
             }
-            if (this.hero.getAbilities().get(ability) == 1 || this.hero.getAbilities().get(Ability.HEALTH) == 50) {
+
+            if (ability == Ability.HEALTH && this.hero.getAbilities().get(Ability.HEALTH) <= 50){
                 System.out.println("You cannot remove points from this ability!");
+                PrintUtils.printDivider();
+                continue;
+            }
+
+            if (this.hero.getAbilities().get(ability) == 1) {
+                System.out.println("You cannot remove points from this ability!");
+                PrintUtils.printDivider();
             } else {
                 this.hero.updateAbility(ability, -1);
                 this.hero.updateAvailablePoints(1);
                 System.out.println("You have removed 1 point from " + ability);
-                PrintUtils.printAbilities(this.hero);
                 PrintUtils.printDivider();
             }
         }
@@ -56,18 +58,14 @@ public class HeroAbilityManager {
 
         if (availablePoints == 0){
             System.out.println("You have no points to spent.");
+            PrintUtils.printDivider();
             return;
         }
 
         while (availablePoints > 0){
             System.out.println("You have " + availablePoints + " points to spend. Choose wisely.");
             System.out.println("0. Explain abilities");
-            System.out.println("1. Attack");
-            System.out.println("2. Parry");
-            System.out.println("3. Dexterity");
-            System.out.println("4. Skill");
-            System.out.println("5. Luck");
-            System.out.println("6. Health");
+            PrintUtils.printAbilitiesNew(hero);
 
             final int abilityIndex = InputUtils.readInt();
             Ability ability;
@@ -78,7 +76,7 @@ public class HeroAbilityManager {
                     }
                     System.out.println();
                     if (availablePoints > 1){
-                        PrintUtils.printAbilities(hero);
+                        PrintUtils.printDivider();
                     }
                     continue;
                 }
@@ -96,12 +94,12 @@ public class HeroAbilityManager {
             hero.updateAbility(ability, 1);
             System.out.println("You have updated " + ability);
             hero.updateAvailablePoints(-1);
-            if (availablePoints > 1){
-                PrintUtils.printAbilities(hero);
-            }
+            PrintUtils.printDivider();
+
             availablePoints --;
         }
         System.out.println("You spent all your talent points.");
-        PrintUtils.printAbilities(hero);
+        PrintUtils.printAbilitiesNew(hero);
+        PrintUtils.printDivider();
     }
 }

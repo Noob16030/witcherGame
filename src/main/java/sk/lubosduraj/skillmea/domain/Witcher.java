@@ -1,14 +1,23 @@
 package sk.lubosduraj.skillmea.domain;
 
 import sk.lubosduraj.skillmea.ability.Ability;
+import sk.lubosduraj.skillmea.ability.Immunity;
 import sk.lubosduraj.skillmea.constant.Constant;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Hero extends GameCharacter {
+public class Witcher extends GameCharacter {
     private int heroAvailablePoints;
+    private int currentLevel;
 
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -23,13 +32,14 @@ public class Hero extends GameCharacter {
     }
 
 
-    public Hero(String name) {
+    public Witcher(String name) {
         super(name, new HashMap<>());
         this.abilities = this.getInitialAbilities();
         this.heroAvailablePoints = Constant.INITIAL_ABILITY_POINTS;
+        this.currentLevel = Constant.INITIAL_LEVEL;
     }
 
-    public Hero(String name, Map<Ability, Integer> abilities, int heroAvailablePoints) {
+    public Witcher(String name, Map<Ability, Integer> abilities, int heroAvailablePoints) {
         super(name, abilities);
         this.heroAvailablePoints = heroAvailablePoints;
     }
@@ -56,5 +66,4 @@ public class Hero extends GameCharacter {
                 Ability.HEALTH, 50
         ));
     }
-
 }

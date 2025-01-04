@@ -1,6 +1,6 @@
 package sk.lubosduraj.skillmea.service;
 import sk.lubosduraj.skillmea.ability.Ability;
-import sk.lubosduraj.skillmea.domain.Hero;
+import sk.lubosduraj.skillmea.domain.Witcher;
 import sk.lubosduraj.skillmea.domain.LoadedGame;
 import sk.lubosduraj.skillmea.utility.InputUtils;
 import sk.lubosduraj.skillmea.utility.PrintUtils;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class FileService {
 
-    public void saveGame(Hero hero, int currentLevel) {
+    public void saveGame(Witcher hero, int currentLevel) {
         while(true){
             System.out.println("How do you want to name your save?");
             final String name = InputUtils.readString();
@@ -135,10 +135,10 @@ public class FileService {
             final int value = Integer.parseInt(abilityData[1]);
             abilities.put(ability, value);
         }
-        return new LoadedGame(new Hero(heroName, abilities, heroAvailablePoints), currentLevel);
+        return new LoadedGame(new Witcher(heroName, abilities, heroAvailablePoints), currentLevel);
     }
 
-    private String heroDataToString(Hero hero, int currentLevel){
+    private String heroDataToString(Witcher hero, int currentLevel){
         final StringBuilder sb = new StringBuilder();
         sb.append(currentLevel).append("\n");
         sb.append(hero.getName()).append("\n");
@@ -147,5 +147,30 @@ public class FileService {
             sb.append(ability).append(":").append(hero.getAbilities().get(ability)).append("\n");
         }
         return sb.toString();
+    }
+
+    public void readText(String file) throws IOException {
+        final String filepath = "story-logs/" + file + ".txt";
+        final String heroData = Files.readString(Path.of(filepath));
+        final String[] lines = heroData.split("\n");
+        for (String line: lines){
+            System.out.println(line);
+        }
+    }
+
+    public void readQuest(String file) throws IOException {
+        final String filepath = "story-logs/" + file + ".txt";
+        final String heroData = Files.readString(Path.of(filepath));
+        final String[] lines = heroData.split("\n");
+        for(int i = 1; i < lines.length; i++){
+            System.out.println(lines[i]);
+        }
+    }
+
+    public String readQuestName(String file) throws IOException {
+        final String filepath = "story-logs/" + file + ".txt";
+        final String heroData = Files.readString(Path.of(filepath));
+        final String[] lines = heroData.split("\n");
+        return lines[0].toString();
     }
 }
