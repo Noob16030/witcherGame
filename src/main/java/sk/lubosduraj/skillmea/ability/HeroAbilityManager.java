@@ -99,7 +99,7 @@ public class HeroAbilityManager {
             availablePoints --;
         }
         System.out.println("You spent all your talent points.");
-        PrintUtils.printAbilitiesNew(hero);
+        PrintUtils.printAbilitiesWithoutNumbers(hero);
         PrintUtils.printDivider();
     }
 }

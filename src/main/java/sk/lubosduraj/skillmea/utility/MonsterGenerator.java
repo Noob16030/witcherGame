@@ -12,26 +12,27 @@ public class MonsterGenerator {
         Map<Integer, Monster> enemies = new HashMap<>();
         enemies.put(
                 1, new Monster("Drowner", new HashMap<>(Map.of(
-                        Ability.ATTACK, 8,
-                        Ability.PARRY, 7,
-                        Ability.DEXTERITY, 6,
+                        Ability.ATTACK, 3,
+                        Ability.PARRY, 2,
+                        Ability.DEXTERITY, 3,
                         Ability.HEALTH, 40
                 )), new HashMap<>(Map.of(
                         Immunity.SILVER, false,
                         Immunity.STEEL, true
                 )))
         );
-        /*enemies.put(
-                2, new Monster("Orc", new HashMap<>(Map.of(
-                        Ability.ATTACK, 3,
+        enemies.put(
+                2, new Monster("Pack of Wolves", new HashMap<>(Map.of(
+                        Ability.ATTACK, 8,
                         Ability.PARRY, 1,
-                        Ability.DEXTERITY, 4,
-                        Ability.SKILL, 3,
-                        Ability.LUCK, 1,
-                        Ability.HEALTH, 35
+                        Ability.DEXTERITY, 3,
+                        Ability.HEALTH, 70
+                )), new HashMap<>(Map.of(
+                        Immunity.SILVER, true,
+                        Immunity.STEEL, false
                 )))
         );
-        enemies.put(
+        /*enemies.put(
                 3, new Monster("Golem", new HashMap<>(Map.of(
                         Ability.ATTACK, 4,
                         Ability.PARRY, 4,

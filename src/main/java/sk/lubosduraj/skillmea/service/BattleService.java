@@ -22,7 +22,6 @@ public class BattleService {
     public boolean battle(Witcher hero, Monster enemy) throws InterruptedException {
         final Map<Ability, Integer> heroAbilities = hero.getAbilities();
         final Map<Ability, Integer> enemyAbilities = enemy.getAbilities();
-        final Map<Immunity, Boolean> enemyImmunities = enemy.getImmunities();
 
         System.out.println("You surprise monster and start the battle!");
         PrintUtils.printDivider();
@@ -31,6 +30,12 @@ public class BattleService {
         while (true) {
             final int heroLife = heroAbilities.get(Ability.HEALTH);
             final int enemyLife = enemyAbilities.get(Ability.HEALTH);
+
+            if (heroLife <= 0) {
+                return false;
+            } else if (enemyLife <= 0) {
+                return true;
+            }
 
             System.out.println("Your life: " + heroLife);
             System.out.println("Enemy life: " + enemyLife);
@@ -51,12 +56,6 @@ public class BattleService {
             } else {
                 this.huntRound(enemy, hero, isHeroTurn, Immunity.STEEL);
                 isHeroTurn = true;
-            }
-
-            if (heroLife <= 0) {
-                return false;
-            } else if (enemyLife <= 0) {
-                return true;
             }
 
             Thread.sleep(Constant.BATTLE_DELAY_MILIS);
@@ -118,7 +117,6 @@ public class BattleService {
         PrintUtils.printDivider();
 
     }
-
 
     public boolean isHeroReadyToBattle(Witcher hero, Monster monster){
         System.out.println(hero.getName() + " VS " + monster.getName());

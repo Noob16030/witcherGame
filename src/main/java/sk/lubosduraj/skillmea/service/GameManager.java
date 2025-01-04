@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class GameManager {
     private Witcher hero;
-    private final HeroAbilityManager heroAbilityManager;
+    private HeroAbilityManager heroAbilityManager;
     private final FileService fileService;
     private final Map<Integer, Monster> enemiesByLevel;
     private final BattleService battleService;
@@ -30,6 +30,7 @@ public class GameManager {
 
     public void startGame() throws InterruptedException, IOException {
         this.initGame();
+        this.heroAbilityManager = new HeroAbilityManager(this.hero);
         while (hero.getCurrentLevel() <=  this.enemiesByLevel.size()){
             QuestService quest = new QuestService(this.hero);
             //System.out.println("0. Fight " + enemy.getName() + " (Level " + this.currentLevel + ")");
@@ -58,9 +59,9 @@ public class GameManager {
                             quest.endQuest();
                         }
                         // restore health
-                        this.hero.setAbility(Ability.HEALTH, heroHealthBeforeBattle);
+                       /* this.hero.setAbility(Ability.HEALTH, heroHealthBeforeBattle);
                         System.out.println("You have full health now.");
-                        PrintUtils.printDivider();
+                        PrintUtils.printDivider();*/
                     }
                 }
                 case 1 -> {
@@ -122,7 +123,7 @@ public class GameManager {
         while (!initialized){
             System.out.println("0. Start new game");
             System.out.println("1. Load game");
-            System.out.println("3. Exit game");
+            System.out.println("2. Exit game");
             final int choice = InputUtils.readInt();
             switch (choice){
                 case 0 -> {
@@ -138,7 +139,7 @@ public class GameManager {
                             return;
                         }
                 }
-                case 3 -> {
+                case 2 -> {
                     System.out.println("Bye");
                     this.exit(0);
                 }
