@@ -1,4 +1,4 @@
-package sk.lubosduraj.skillmea.ability;
+package sk.lubosduraj.skillmea.service;
 
 public enum Sign {
     AARD("Aard is used for telekinetic thrust that can stun, repel, knock down, or disarm opponents, as well as remove barriers and other objects."),

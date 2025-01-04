@@ -5,6 +5,9 @@ import sk.lubosduraj.skillmea.ability.Immunity;
 import sk.lubosduraj.skillmea.domain.GameCharacter;
 import sk.lubosduraj.skillmea.domain.Monster;
 import sk.lubosduraj.skillmea.domain.Witcher;
+import sk.lubosduraj.skillmea.service.Sign;
+
+import javax.sound.midi.Soundbank;
 
 public class PrintUtils {
     public static void printAbilitiesWithoutNumbers(GameCharacter character) {
@@ -14,7 +17,6 @@ public class PrintUtils {
         System.out.println("Skill: " + character.getAbilities().get(Ability.SKILL));
         System.out.println("Luck: " + character.getAbilities().get(Ability.LUCK));
         System.out.println("Health: " + character.getAbilities().get(Ability.HEALTH));
-        printDivider();
     }
 
     public static void printDivider(){
@@ -46,6 +48,24 @@ public class PrintUtils {
             System.out.println(monster.getName() + " is immune against steel sword.");
         } else {
             System.out.println(monster.getName() + " is weak against steel sword.");
+        }
+    }
+
+    public static void printSigns() {
+        System.out.println("AARD: " + Sign.AARD.getDescription());
+        System.out.println("IGNI: " + Sign.IGNI.getDescription());
+        System.out.println("YRDEN: " + Sign.YRDEN.getDescription());
+        System.out.println("QUEN: " + Sign.QUEN.getDescription());
+        System.out.println("AXII: " + Sign.AXII.getDescription());
+    }
+
+    public static void printNumberOfSignsReady(Witcher witcher){
+        if (witcher.getManaPoints() <= 0) {
+            System.out.println("You have not any power for signs!");
+        } else if (witcher.getManaPoints() == 1) {
+             System.out.println("In next hunt you can use only one sign!");
+        } else {
+            System.out.println("You can use " + witcher.getManaPoints() + " times a sign!");
         }
     }
 }

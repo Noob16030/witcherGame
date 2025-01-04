@@ -10,6 +10,15 @@ import java.util.Map;
 public class Witcher extends GameCharacter {
     private int heroAvailablePoints;
     private int currentLevel;
+    private int manaPoints;
+
+    public int getManaPoints() {
+        return manaPoints;
+    }
+
+    public void setManaPoints(int manaPoints) {
+        this.manaPoints = manaPoints;
+    }
 
     public int getCurrentLevel() {
         return currentLevel;
@@ -37,11 +46,13 @@ public class Witcher extends GameCharacter {
         this.abilities = this.getInitialAbilities();
         this.heroAvailablePoints = Constant.INITIAL_ABILITY_POINTS;
         this.currentLevel = Constant.INITIAL_LEVEL;
+        this.manaPoints = Constant.INITIAL_MANA_POINTS;
     }
 
-    public Witcher(String name, Map<Ability, Integer> abilities, int heroAvailablePoints) {
+    public Witcher(String name, Map<Ability, Integer> abilities, int heroAvailablePoints, int manaPoints) {
         super(name, abilities);
         this.heroAvailablePoints = heroAvailablePoints;
+        this.manaPoints = manaPoints;
     }
 
     public void updateAvailablePoints(int delta){

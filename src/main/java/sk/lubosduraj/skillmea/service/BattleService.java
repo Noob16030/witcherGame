@@ -44,6 +44,7 @@ public class BattleService {
                 System.out.println("0. Run away");
                 System.out.println("1. Attack with steel sword");
                 System.out.println("2. Attack with silver sword");
+                System.out.println("3. Use sign");
                 final int choice = InputUtils.readInt();
                 switch (choice){
                     case 0 -> {
@@ -51,6 +52,16 @@ public class BattleService {
                     }
                     case 1 -> this.huntRound(hero, enemy, isHeroTurn, Immunity.STEEL);
                     case 2 -> this.huntRound(hero, enemy, isHeroTurn, Immunity.SILVER);
+                    case 3 -> {
+                        final Sign sign = this.huntRoundSign(hero);
+                        if (sign == null) {
+                            continue;
+                        }
+
+                        if (sign == Sign.AARD){
+                            // Tu som skoncil
+                        }
+                    }
                 }
                 isHeroTurn = false;
             } else {
@@ -60,6 +71,51 @@ public class BattleService {
 
             Thread.sleep(Constant.BATTLE_DELAY_MILIS);
 
+        }
+    }
+
+    private Sign huntRoundSign(Witcher witcher) {
+        if (witcher.getManaPoints() > 0) {
+            while (true) {
+                System.out.println("0. Back");
+                System.out.println("1. Explain signs");
+                System.out.println("2. AARD");
+                System.out.println("3. IGNI");
+                System.out.println("4. YRDEN");
+                System.out.println("5. QUEN");
+                System.out.println("6. AXII");
+
+                final int choice = InputUtils.readInt();
+
+                switch (choice) {
+                    case 0 -> {
+                        return null;
+                    }
+                    case 1 -> {
+                        PrintUtils.printSigns();
+                        PrintUtils.printDivider();
+                    }
+                    case 2 -> {
+                        return Sign.AARD;
+                    }
+                    case 3 -> {
+                        return Sign.IGNI;
+                    }
+                    case 4 -> {
+                        return Sign.YRDEN;
+                    }
+                    case 5 -> {
+                        return Sign.QUEN;
+                    }
+                    case 6 -> {
+                        return Sign.AXII;
+                    }
+                    default -> System.out.println("Invalid choice.");
+                }
+            }
+        } else {
+            System.out.println("You do not have power to sign!");
+            return null;
         }
     }
 
@@ -123,6 +179,8 @@ public class BattleService {
         PrintUtils.printDivider();
         System.out.println("View your abilities:");
         PrintUtils.printAbilitiesWithoutNumbers(hero);
+        PrintUtils.printNumberOfSignsReady(hero);
+        PrintUtils.printDivider();
         System.out.println("View monster abilities:");
         PrintUtils.printMonsterProperties(monster);
 
