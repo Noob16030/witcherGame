@@ -3,6 +3,7 @@ package sk.lubosduraj.skillmea.service;
 import sk.lubosduraj.skillmea.ability.Ability;
 import sk.lubosduraj.skillmea.ability.Immunity;
 import sk.lubosduraj.skillmea.constant.Constant;
+import sk.lubosduraj.skillmea.domain.Humanoid;
 import sk.lubosduraj.skillmea.domain.Monster;
 import sk.lubosduraj.skillmea.domain.GameCharacter;
 import sk.lubosduraj.skillmea.domain.Witcher;
@@ -19,7 +20,7 @@ public class BattleService {
         this.random = new Random();
     }
 
-    public boolean battle(Witcher hero, Monster enemy) throws InterruptedException {
+    public boolean battle(Witcher hero, GameCharacter enemy) throws InterruptedException {
         final Map<Ability, Integer> heroAbilities = hero.getAbilities();
         final Map<Ability, Integer> enemyAbilities = enemy.getAbilities();
 
@@ -39,8 +40,8 @@ public class BattleService {
 
 
         while (true) {
-            final int heroLife = heroAbilities.get(Ability.HEALTH);
-            final int enemyLife = enemyAbilities.get(Ability.HEALTH);
+            final int heroLife = heroAbilities.get(Ability.ACTUAL_HEALTH);
+            final int enemyLife = enemyAbilities.get(Ability.ACTUAL_HEALTH);
 
             if (heroLife <= 0) {
                 return false;
@@ -81,13 +82,18 @@ public class BattleService {
                             hero.setManaPoints(hero.getManaPoints() - 1);
                         }
                         if (sign == Sign.YRDEN){
-                            System.out.println(enemy.getName() + " is slowed down for some time.");
-                            roundsSlowed += 3;
-                            basicMonsterAttack = enemy.getAbilities().get(Ability.ATTACK);
-                            basicMonsterParry = enemy.getAbilities().get(Ability.PARRY);
-                            enemy.slowCharacter(hero.getCurrentLevel());
-                            hero.setManaPoints(hero.getManaPoints() - 1);
-                            printedRecoveryFromSlow = false;
+                            if(enemy instanceof Monster) {
+                                System.out.println(enemy.getName() + " is slowed down for some time.");
+                                roundsSlowed += 3;
+                                basicMonsterAttack = enemy.getAbilities().get(Ability.ATTACK);
+                                basicMonsterParry = enemy.getAbilities().get(Ability.PARRY);
+                                enemy.slowCharacter(hero.getCurrentLevel());
+                                hero.setManaPoints(hero.getManaPoints() - 1);
+                                printedRecoveryFromSlow = false;
+                            } else if (enemy instanceof Humanoid){
+                                System.out.println("YRDEN against humanoids do not have visible effect!");
+                                hero.setManaPoints(hero.getManaPoints() - 1);
+                            }
                         }
                         if(sign == Sign.QUEN){
                             System.out.println("You cast magical shield around you!");
@@ -101,10 +107,25 @@ public class BattleService {
                             if(enemy instanceof Monster){
                                 System.out.println("AXII against monsters do not have visible effect!");
                                 hero.setManaPoints(hero.getManaPoints() - 1);
+                            } else if (enemy instanceof Humanoid){
+                                System.out.println(enemy.getName() + " is slowed down for some time.");
+                                roundsSlowed += 3;
+                                basicMonsterAttack = enemy.getAbilities().get(Ability.ATTACK);
+                                basicMonsterParry = enemy.getAbilities().get(Ability.PARRY);
+                                enemy.slowCharacter(hero.getCurrentLevel());
+                                hero.setManaPoints(hero.getManaPoints() - 1);
+                                printedRecoveryFromSlow = false;
                             }
                         }
                     }
                 }
+
+                if (heroLife <= 0) {
+                    return false;
+                } else if (enemyLife <= 0) {
+                    return true;
+                }
+
                 if (roundsRemaining > 0){
                     roundsRemaining--;
                 } else {
@@ -138,9 +159,7 @@ public class BattleService {
                 this.huntRound(enemy, hero, isHeroTurn, Immunity.STEEL);
                 isHeroTurn = true;
             }
-
             Thread.sleep(Constant.BATTLE_DELAY_MILIS);
-
         }
     }
 
@@ -204,10 +223,20 @@ public class BattleService {
         if (isWitcher) {
             minAttack = attackerAbilities.get(Ability.ATTACK);
             maxAttack = minAttack + attackerAbilities.get(Ability.DEXTERITY) + attackerAbilities.get(Ability.SKILL);
-            if ((((Monster) defender).getImmunities().get(Immunity.SILVER) && immunity == Immunity.SILVER) || (((Monster) defender).getImmunities().get(Immunity.STEEL) && immunity == Immunity.STEEL)) {
-                attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack;
+            if (defender instanceof Monster) {
+                if ((((Monster) defender).getImmunities().get(Immunity.SILVER) && immunity == Immunity.SILVER) || (((Monster) defender).getImmunities().get(Immunity.STEEL) && immunity == Immunity.STEEL)) {
+                    attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack;
+                } else {
+                    attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack + 10;
+                }
+            } else if (defender instanceof Humanoid) {
+                if ((((Humanoid) defender).getImmunities().get(Immunity.SILVER) && immunity == Immunity.SILVER) || (((Humanoid) defender).getImmunities().get(Immunity.STEEL) && immunity == Immunity.STEEL)) {
+                    attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack;
+                } else {
+                    attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack + 10;
+                }
             } else {
-                attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack + 10;
+                attackPower = random.nextInt(maxAttack - minAttack + 1) + minAttack;
             }
 
             // calculate defence power
@@ -239,16 +268,17 @@ public class BattleService {
 
         System.out.println(attacker.getName() + " attacks " + defender.getName() + " with " + damage + " damage!");
         defender.receiveDamage(damage);
-        System.out.println(defender.getName() + " has " + defenderAbilities.get(Ability.HEALTH) +  " health.");
+        System.out.println(defender.getName() + " has " + defenderAbilities.get(Ability.ACTUAL_HEALTH) +  " health.");
         PrintUtils.printDivider();
 
     }
 
-    public boolean isHeroReadyToBattle(Witcher hero, Monster monster){
+    public boolean isHeroReadyToBattle(Witcher hero, GameCharacter monster){
         System.out.println(hero.getName() + " VS " + monster.getName());
         PrintUtils.printDivider();
         System.out.println("View your abilities:");
         PrintUtils.printAbilitiesWithoutNumbers(hero);
+        PrintUtils.printActualHealth(hero);
         PrintUtils.printNumberOfSignsReady(hero);
         PrintUtils.printDivider();
         System.out.println("View monster abilities:");

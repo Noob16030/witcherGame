@@ -3,6 +3,7 @@ package sk.lubosduraj.skillmea.service;
 import sk.lubosduraj.skillmea.ability.Ability;
 import sk.lubosduraj.skillmea.ability.HeroAbilityManager;
 import sk.lubosduraj.skillmea.constant.Constant;
+import sk.lubosduraj.skillmea.domain.GameCharacter;
 import sk.lubosduraj.skillmea.domain.Monster;
 import sk.lubosduraj.skillmea.domain.Witcher;
 import sk.lubosduraj.skillmea.domain.LoadedGame;
@@ -17,7 +18,7 @@ public class GameManager {
     private Witcher hero;
     private HeroAbilityManager heroAbilityManager;
     private final FileService fileService;
-    private final Map<Integer, Monster> enemiesByLevel;
+    private final Map<Integer, GameCharacter> enemiesByLevel;
     private final BattleService battleService;
 
     public GameManager(){
@@ -34,19 +35,21 @@ public class GameManager {
         while (hero.getCurrentLevel() <=  this.enemiesByLevel.size()){
             QuestService quest = new QuestService(this.hero);
             //System.out.println("0. Fight " + enemy.getName() + " (Level " + this.currentLevel + ")");
+            PrintUtils.printActualHealth(this.hero);
             System.out.println("0. Start quest: " + quest.getName());
             System.out.println("1. Upgrade abilities (" + hero.getHeroAvailablePoints() + " points to spend)");
-            System.out.println("2. Save game");
-            System.out.println("3. Exit game");
+            System.out.println("2. Meditate for 5 coins (You have " + hero.getCoins()+ " coins)");
+            System.out.println("3. Save game");
+            System.out.println("4. Exit game");
 
             final int choice = InputUtils.readInt();
             switch (choice){
                 case 0 -> {
-                   final Monster monster = quest.startQuest();
+                   final GameCharacter monster = quest.startQuest();
                     PrintUtils.printDivider();
 
                     if(this.battleService.isHeroReadyToBattle(this.hero, monster)){
-                        final int heroHealthBeforeBattle = this.hero.getAbilities().get(Ability.HEALTH);
+                        final int heroHealthBeforeBattle = this.hero.getAbilities().get(Ability.ACTUAL_HEALTH);
                         final boolean hasHeroWon = this.battleService.battle(this.hero, monster);
                         if (hasHeroWon){
                             PrintUtils.printDivider();
@@ -54,32 +57,20 @@ public class GameManager {
                             this.hero.updateAvailablePoints(quest.getPointsReceived());
                             this.hero.setCurrentLevel(this.hero.getCurrentLevel() + 1);
                             this.hero.setManaPoints(this.hero.getManaPoints() +1);
-                            quest.endQuest();
+                            hero.setCoins(hero.getCoins() + quest.endQuest(true));
                         } else {
                             System.out.println("You have lost. You are severally damaged. Need to meditate.");
-                            quest.endQuest();
+                            quest.endQuest(false);
                         }
-                        // restore health
-                        PrintUtils.printDivider();
-                        System.out.print("Resting.");
-                        for(int i = 0; i <= 4; i++){
-                            Thread.sleep(Constant.RESTING_DELAY_MILIS);
-                            System.out.print(".");
-                        }
-                        System.out.println("");
-                        PrintUtils.printDivider();
-                        this.hero.setAbility(Ability.HEALTH, heroHealthBeforeBattle);
-                        System.out.println("You are full rested for now.");
-                        PrintUtils.printDivider();
                     }
                 }
-                case 1 -> {
-                    this.upgradeAbilities();
-                }
-                case 2 -> {
-                    this.fileService.saveGame(this.hero, hero.getCurrentLevel());
-                }
-                case 3 ->{
+                case 1 -> this.upgradeAbilities();
+
+                case 2 -> heroAbilityManager.meditate(this.hero);
+
+                case 3 -> this.fileService.saveGame(this.hero, hero.getCurrentLevel());
+
+                case 4 ->{
                     System.out.println("Are you sure?");
                     System.out.println("0. No");
                     System.out.println("1. Yes");
@@ -164,6 +155,7 @@ public class GameManager {
         System.out.println(hero.getName() + " begin your journey as a true Witcher!");
         PrintUtils.printDivider();
         this.heroAbilityManager.spendAvailablePoints();
+        this.hero.setAbility(Ability.ACTUAL_HEALTH, this.hero.getAbilities().get(Ability.MAX_HEALTH));
     }
 
     public void exit(int status){

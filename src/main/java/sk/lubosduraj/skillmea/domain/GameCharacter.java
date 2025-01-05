@@ -1,7 +1,6 @@
 package sk.lubosduraj.skillmea.domain;
 
 import sk.lubosduraj.skillmea.ability.Ability;
-import sk.lubosduraj.skillmea.ability.Immunity;
 
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public abstract class GameCharacter {
     }
 
     public void receiveDamage(int damage){
-        abilities.put(Ability.HEALTH, Math.max(0, abilities.get(Ability.HEALTH) - damage));
+        abilities.put(Ability.ACTUAL_HEALTH, Math.max(0, abilities.get(Ability.ACTUAL_HEALTH) - damage));
     }
 
     public void slowCharacter(int value){
@@ -43,4 +42,5 @@ public abstract class GameCharacter {
     public void returnParry(int value){
         abilities.put(Ability.PARRY, value);
     }
+
 }

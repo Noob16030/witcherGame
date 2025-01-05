@@ -8,4 +8,5 @@ public class Constant {
     public static final int BATTLE_DELAY_MILIS = 500;
     public static final int RESTING_DELAY_MILIS = 1000;
     public static final int INITIAL_MANA_POINTS = 1;
+    public static final int INITIAL_COINS = 5;
 }

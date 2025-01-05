@@ -1,5 +1,6 @@
 package sk.lubosduraj.skillmea.ability;
 
+import sk.lubosduraj.skillmea.constant.Constant;
 import sk.lubosduraj.skillmea.domain.Witcher;
 import sk.lubosduraj.skillmea.utility.InputUtils;
 import sk.lubosduraj.skillmea.utility.PrintUtils;
@@ -28,14 +29,14 @@ public class HeroAbilityManager {
                 case 3 -> ability = Ability.DEXTERITY;
                 case 4 -> ability = Ability.SKILL;
                 case 5 -> ability = Ability.LUCK;
-                case 6 -> ability = Ability.HEALTH;
+                case 6 -> ability = Ability.MAX_HEALTH;
                 default -> {
                     System.out.println("Invalid index.");
                     continue;
                 }
             }
 
-            if (ability == Ability.HEALTH && this.hero.getAbilities().get(Ability.HEALTH) <= 50){
+            if (ability == Ability.MAX_HEALTH && this.hero.getAbilities().get(Ability.MAX_HEALTH) <= 50){
                 System.out.println("You cannot remove points from this ability!");
                 PrintUtils.printDivider();
                 continue;
@@ -85,7 +86,7 @@ public class HeroAbilityManager {
                 case 3 -> ability = Ability.DEXTERITY;
                 case 4 -> ability = Ability.SKILL;
                 case 5 -> ability = Ability.LUCK;
-                case 6 -> ability = Ability.HEALTH;
+                case 6 -> ability = Ability.MAX_HEALTH;
                 default -> {
                     System.out.println("Invalid index.");
                     continue;
@@ -101,5 +102,27 @@ public class HeroAbilityManager {
         System.out.println("You spent all your talent points.");
         PrintUtils.printAbilitiesWithoutNumbers(hero);
         PrintUtils.printDivider();
+    }
+
+    public void meditate(Witcher witcher) throws InterruptedException {
+        if (witcher.getAbilities().get(Ability.ACTUAL_HEALTH) == witcher.getAbilities().get(Ability.MAX_HEALTH)){
+            System.out.println("Your health is full");
+        } else if (witcher.getCoins() < 5){
+            System.out.println("You do not have enough coins.");
+        } else {
+            // restore health
+            PrintUtils.printDivider();
+            System.out.print("Meditating.");
+            for(int i = 0; i <= 4; i++){
+                Thread.sleep(Constant.RESTING_DELAY_MILIS);
+                System.out.print(".");
+            }
+            System.out.println("");
+            PrintUtils.printDivider();
+            witcher.setAbility(Ability.ACTUAL_HEALTH, witcher.getAbilities().get(Ability.MAX_HEALTH));
+            witcher.setCoins(witcher.getCoins() - 5);
+            System.out.println("You are full rested for now.");
+            PrintUtils.printDivider();
+        }
     }
 }

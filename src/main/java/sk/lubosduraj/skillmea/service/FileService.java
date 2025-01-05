@@ -129,14 +129,15 @@ public class FileService {
         final String heroName = lines[1];
         final int heroAvailablePoints = Integer.parseInt(lines[2]);
         final int heroManaPoints = Integer.parseInt(lines[3]);
+        final int coins = Integer.parseInt(lines[4]);
         final Map<Ability, Integer> abilities = new HashMap<>();
-        for (int i = 4; i < 4 + Ability.values().length; i++){
+        for (int i = 5; i < 5 + Ability.values().length; i++){
             final String[] abilityData = lines[i].split(":");
             final Ability ability = Ability.valueOf(abilityData[0]);
             final int value = Integer.parseInt(abilityData[1]);
             abilities.put(ability, value);
         }
-        return new LoadedGame(new Witcher(heroName, abilities, heroAvailablePoints, heroManaPoints), currentLevel);
+        return new LoadedGame(new Witcher(heroName, abilities, heroAvailablePoints, heroManaPoints, coins), currentLevel);
     }
 
     private String heroDataToString(Witcher hero, int currentLevel){
@@ -145,6 +146,7 @@ public class FileService {
         sb.append(hero.getName()).append("\n");
         sb.append(hero.getHeroAvailablePoints()).append("\n");
         sb.append(hero.getManaPoints()).append("\n");
+        sb.append(hero.getCoins()).append("\n");
         for (Ability ability: Ability.values()){
             sb.append(ability).append(":").append(hero.getAbilities().get(ability)).append("\n");
         }

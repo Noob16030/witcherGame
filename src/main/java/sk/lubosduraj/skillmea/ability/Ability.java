@@ -6,7 +6,8 @@ public enum Ability {
     DEXTERITY("Dexterity is important for both attack and defence. It affects final damage and final damage reduction."),
     SKILL("Skill is important for attack and also for critical hit chance."),
     LUCK("Luck is important for critical hit chance."),
-    HEALTH("Health is the amount of damage you can take before you die. After each battle, health can be restored to full.");
+    ACTUAL_HEALTH("Health is the amount of damage you can take before you die. After each battle, health can be restored to full."),
+    MAX_HEALTH("Max amount of health, before taken any damage");
 
 
     private final String description;
