@@ -34,7 +34,7 @@ public class QuestService {
     public int endQuest(boolean finished) {
         this.active = false;
         if (finished) {
-            return 5;
+            return 5 * this.witcher.getCurrentLevel();
         } else {
             return 0;
         }

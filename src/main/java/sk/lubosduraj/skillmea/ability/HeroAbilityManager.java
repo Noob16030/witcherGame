@@ -127,4 +127,14 @@ public class HeroAbilityManager {
             PrintUtils.printDivider();
         }
     }
+
+    public void buyPowerPotion(Witcher witcher){
+        if (witcher.getCoins() < 10){
+            System.out.println("You do not have enough coins.");
+        } else {
+            System.out.println("Slurp! Now you feel more powerful.");
+            witcher.setManaPoints(witcher.getManaPoints() + 1);
+            witcher.setCoins(witcher.getCoins() - 10);
+        }
+    }
 }

@@ -40,8 +40,9 @@ public class GameManager {
             System.out.println("0. Start quest: " + quest.getName());
             System.out.println("1. Upgrade abilities (" + hero.getHeroAvailablePoints() + " points to spend)");
             System.out.println("2. Meditate for 5 coins (You have " + hero.getCoins()+ " coins)");
-            System.out.println("3. Save game");
-            System.out.println("4. Exit game");
+            System.out.println("3. Buy potion of power for 10 coins (You have " + hero.getCoins()+ " coins and " + hero.getManaPoints() + " power points for signs)");
+            System.out.println("4. Save game");
+            System.out.println("5. Exit game");
 
             final int choice = InputUtils.readInt();
             switch (choice){
@@ -69,9 +70,11 @@ public class GameManager {
 
                 case 2 -> heroAbilityManager.meditate(this.hero);
 
-                case 3 -> this.fileService.saveGame(this.hero, hero.getCurrentLevel());
+                case 3 -> heroAbilityManager.buyPowerPotion(this.hero);
 
-                case 4 ->{
+                case 4 -> this.fileService.saveGame(this.hero, hero.getCurrentLevel());
+
+                case 5 ->{
                     System.out.println("Are you sure?");
                     System.out.println("0. No");
                     System.out.println("1. Yes");
@@ -92,6 +95,7 @@ public class GameManager {
             }
         }
         System.out.println("You finish all quests for now withcer!");
+        fileService.readText("Outro");
     }
 
     private void upgradeAbilities(){
