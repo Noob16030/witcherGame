@@ -6,5 +6,6 @@ public class Constant {
     public static final int INITIAL_LEVEL = 1;
     public static final int CRITICAL_HIT_MULTIPLIER = 2;
     public static final int BATTLE_DELAY_MILIS = 500;
+    public static final int RESTING_DELAY_MILIS = 1000;
     public static final int INITIAL_MANA_POINTS = 1;
 }

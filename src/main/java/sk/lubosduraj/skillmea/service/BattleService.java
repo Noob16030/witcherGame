@@ -27,6 +27,17 @@ public class BattleService {
         PrintUtils.printDivider();
 
         boolean isHeroTurn = true;
+        boolean printedRecovery = true;
+        boolean printedRecoveryFromSlow = true;
+        boolean printedMagicalShield = true;
+        int roundsRemaining = 0;
+        int roundsSlowed = 0;
+        int roundsMagicalShield = 0;
+        int basicMonsterAttack = 0;
+        int basicMonsterParry = 0;
+        int basicWitcherParry = 0;
+
+
         while (true) {
             final int heroLife = heroAbilities.get(Ability.HEALTH);
             final int enemyLife = enemyAbilities.get(Ability.HEALTH);
@@ -57,13 +68,72 @@ public class BattleService {
                         if (sign == null) {
                             continue;
                         }
-
                         if (sign == Sign.AARD){
-                            // Tu som skoncil
+                            System.out.println("You stunned " + enemy.getName() + ". You have now some time for your attacks.");
+                            roundsRemaining += 2;
+                            hero.setManaPoints(hero.getManaPoints() - 1);
+                            printedRecovery = false;
+                            continue;
+                        }
+                        if (sign == Sign.IGNI){
+                            System.out.println("You fired IGNI against " + enemy.getName() + ".");
+                            enemy.receiveDamage(20);
+                            hero.setManaPoints(hero.getManaPoints() - 1);
+                        }
+                        if (sign == Sign.YRDEN){
+                            System.out.println(enemy.getName() + " is slowed down for some time.");
+                            roundsSlowed += 3;
+                            basicMonsterAttack = enemy.getAbilities().get(Ability.ATTACK);
+                            basicMonsterParry = enemy.getAbilities().get(Ability.PARRY);
+                            enemy.slowCharacter(hero.getCurrentLevel());
+                            hero.setManaPoints(hero.getManaPoints() - 1);
+                            printedRecoveryFromSlow = false;
+                        }
+                        if(sign == Sign.QUEN){
+                            System.out.println("You cast magical shield around you!");
+                            roundsMagicalShield += hero.getCurrentLevel();
+                            basicWitcherParry = hero.getAbilities().get(Ability.PARRY);
+                            hero.raiseParry(hero.getCurrentLevel() * 3);
+                            hero.setManaPoints(hero.getManaPoints() - 1);
+                            printedMagicalShield = false;
+                        }
+                        if(sign == Sign.AXII){
+                            if(enemy instanceof Monster){
+                                System.out.println("AXII against monsters do not have visible effect!");
+                                hero.setManaPoints(hero.getManaPoints() - 1);
+                            }
                         }
                     }
                 }
-                isHeroTurn = false;
+                if (roundsRemaining > 0){
+                    roundsRemaining--;
+                } else {
+                    if(!printedRecovery) {
+                        System.out.println(enemy.getName() + " is back on legs.");
+                        printedRecovery = true;
+                    }
+                    isHeroTurn = false;
+                }
+
+                if (roundsSlowed > 0){
+                    roundsSlowed--;
+                } else {
+                    if(!printedRecoveryFromSlow) {
+                        System.out.println(enemy.getName() + " is recovered from YRDEN.");
+                        enemy.returnCharacterStats(basicMonsterAttack, basicMonsterParry);
+                        printedRecoveryFromSlow = true;
+                    }
+                }
+
+                if (roundsMagicalShield > 0){
+                    roundsMagicalShield--;
+                } else {
+                    if(!printedMagicalShield){
+                        System.out.println("Magical shield was broken!");
+                        hero.returnParry(basicWitcherParry);
+                        printedMagicalShield = true;
+                    }
+                }
             } else {
                 this.huntRound(enemy, hero, isHeroTurn, Immunity.STEEL);
                 isHeroTurn = true;

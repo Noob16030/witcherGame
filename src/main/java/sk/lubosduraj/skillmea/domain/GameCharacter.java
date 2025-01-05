@@ -25,4 +25,22 @@ public abstract class GameCharacter {
     public void receiveDamage(int damage){
         abilities.put(Ability.HEALTH, Math.max(0, abilities.get(Ability.HEALTH) - damage));
     }
+
+    public void slowCharacter(int value){
+        abilities.put(Ability.ATTACK, Math.max(0, abilities.get(Ability.ATTACK) - value));
+        abilities.put(Ability.PARRY, Math.max(0, abilities.get(Ability.PARRY) - value));
+    }
+
+    public void returnCharacterStats(int valueAttack, int valueParry){
+        abilities.put(Ability.ATTACK, valueAttack);
+        abilities.put(Ability.PARRY, valueParry);
+    }
+
+    public void raiseParry(int value){
+        abilities.put(Ability.PARRY, Math.max(0, abilities.get(Ability.PARRY) + value));
+    }
+
+    public void returnParry(int value){
+        abilities.put(Ability.PARRY, value);
+    }
 }

@@ -53,15 +53,24 @@ public class GameManager {
                             System.out.println("You have won this hunt! You have gained " + quest.getPointsReceived() + " ability points.");
                             this.hero.updateAvailablePoints(quest.getPointsReceived());
                             this.hero.setCurrentLevel(this.hero.getCurrentLevel() + 1);
+                            this.hero.setManaPoints(this.hero.getManaPoints() +1);
                             quest.endQuest();
                         } else {
                             System.out.println("You have lost. You are severally damaged. Need to meditate.");
                             quest.endQuest();
                         }
                         // restore health
-                       /* this.hero.setAbility(Ability.HEALTH, heroHealthBeforeBattle);
-                        System.out.println("You have full health now.");
-                        PrintUtils.printDivider();*/
+                        PrintUtils.printDivider();
+                        System.out.print("Resting.");
+                        for(int i = 0; i <= 4; i++){
+                            Thread.sleep(Constant.RESTING_DELAY_MILIS);
+                            System.out.print(".");
+                        }
+                        System.out.println("");
+                        PrintUtils.printDivider();
+                        this.hero.setAbility(Ability.HEALTH, heroHealthBeforeBattle);
+                        System.out.println("You are full rested for now.");
+                        PrintUtils.printDivider();
                     }
                 }
                 case 1 -> {
@@ -90,7 +99,7 @@ public class GameManager {
                 default -> System.out.println("Wrong input!");
             }
         }
-        System.out.println("You won the game!");
+        System.out.println("You finish all quests for now withcer!");
     }
 
     private void upgradeAbilities(){
