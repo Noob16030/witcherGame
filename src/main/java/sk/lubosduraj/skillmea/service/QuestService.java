@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.Map;
 
 public class QuestService {
-    boolean active;
-    String name;
-    int pointsReceived;
-    Witcher witcher;
+    private boolean active;
+    private String name;
+    private int pointsReceived;
+    private Witcher witcher;
     private final Map<Integer, GameCharacter> enemiesByLevel;
-    FileService fileService;
+    private FileService fileService;
 
     public QuestService(Witcher witcher) throws IOException {
         this.witcher = witcher;

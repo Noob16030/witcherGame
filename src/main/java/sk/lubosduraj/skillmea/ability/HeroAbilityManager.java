@@ -5,6 +5,8 @@ import sk.lubosduraj.skillmea.domain.Witcher;
 import sk.lubosduraj.skillmea.utility.InputUtils;
 import sk.lubosduraj.skillmea.utility.PrintUtils;
 
+import java.util.Objects;
+
 public class HeroAbilityManager {
     private final Witcher hero;
 
@@ -105,8 +107,8 @@ public class HeroAbilityManager {
     }
 
     public void meditate(Witcher witcher) throws InterruptedException {
-        if (witcher.getAbilities().get(Ability.ACTUAL_HEALTH) == witcher.getAbilities().get(Ability.MAX_HEALTH)){
-            System.out.println("Your health is full");
+        if (Objects.equals(witcher.getAbilities().get(Ability.ACTUAL_HEALTH), witcher.getAbilities().get(Ability.MAX_HEALTH))){
+            System.out.println("No need for meditate.");
         } else if (witcher.getCoins() < 5){
             System.out.println("You do not have enough coins.");
         } else {

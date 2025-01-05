@@ -80,7 +80,7 @@ public class PrintUtils {
        if(HP < MaxHP){
            System.out.println("Your health is " + HP + "/" + MaxHP + ". Meditate to full your health.");
        } else {
-           System.out.println("Your health is full");
+           System.out.println("Your health is full.");
        }
     }
 

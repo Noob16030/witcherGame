@@ -12,44 +12,6 @@ public class Witcher extends GameCharacter {
     private int manaPoints;
     private int coins;
 
-
-    public int getCoins() {
-        return coins;
-    }
-
-    public void setCoins(int coins) {
-        this.coins = coins;
-    }
-
-    public int getManaPoints() {
-        return manaPoints;
-    }
-
-    public void setManaPoints(int manaPoints) {
-        this.manaPoints = manaPoints;
-    }
-
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getHeroAvailablePoints() {
-        return heroAvailablePoints;
-    }
-
-    public void setAbility(Ability ability, int value){
-        abilities.put(ability, value);
-    }
-
-
     public Witcher(String name) {
         super(name, new HashMap<>());
         this.abilities = this.getInitialAbilities();
@@ -89,4 +51,41 @@ public class Witcher extends GameCharacter {
                 Ability.MAX_HEALTH, 50
         ));
     }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public int getManaPoints() {
+        return manaPoints;
+    }
+
+    public void setManaPoints(int manaPoints) {
+        this.manaPoints = manaPoints;
+    }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHeroAvailablePoints() {
+        return heroAvailablePoints;
+    }
+
+    public void setAbility(Ability ability, int value){
+        abilities.put(ability, value);
+    }
+
 }
